@@ -115,6 +115,10 @@ export class SceneManager {
     this.scene.add(this.shadowPlane);
   }
 
+  initHelpers() {
+    // Debug helpers disabled for production
+  }
+
   initStats() {
     this.stats = new Stats({
       trackGPU: true,
