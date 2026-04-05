@@ -63,7 +63,7 @@ export class SceneManager {
       0.1,
       1000
     );
-    this.camera.position.set(4, 1.6, 5);
+    this.camera.position.set(4, 1, 5);
   }
 
 
@@ -74,7 +74,7 @@ export class SceneManager {
     this.controls.minDistance = 4;
     this.controls.maxDistance = 7;
     this.controls.maxPolarAngle = Math.PI / 2;
-    this.controls.target.set(0, 0.6, 0);
+    this.controls.target.set(0, 1.9, 0);
     this.controls.update();
   }
 
