@@ -49,7 +49,6 @@ export class ConfiguratorManager {
 
   getPartByMeshName(nodeName) {
     if (!nodeName) return null;
-    // Normalize: Three.js may convert spaces to underscores in node names
     const normalized = nodeName.replace(/_/g, " ");
     for (const [meshName, part] of this._meshNameMap) {
       if (normalized.includes(meshName)) return part;

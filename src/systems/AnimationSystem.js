@@ -66,42 +66,83 @@ export class AnimationSystem {
       },
     });
 
-    const [ox, oy, oz] = part.explodeOffset;
-    const len = Math.sqrt(ox * ox + oy * oy + oz * oz) || 1;
-    const popDist = 0.4;
-    const dx = (ox / len) * popDist;
-    const dy = (oy / len) * popDist;
-    const dz = (oz / len) * popDist;
+    const partsToAnimate = [part];
+    if (part.triggers?.length) {
+      for (const triggeredId of part.triggers) {
+        const linked = this.configurator.registry.parts.find((p) => p.id === triggeredId);
+        if (linked?.meshes?.length) partsToAnimate.push(linked);
+      }
+    }
 
-    for (const mesh of part.meshes) {
-      const rest = { x: mesh.position.x, y: mesh.position.y, z: mesh.position.z };
-
-      tl.to(
-        mesh.position,
-        {
-          x: rest.x + dx,
-          y: rest.y + dy,
-          z: rest.z + dz,
-          duration: 0.3,
-          ease: "power2.out",
-        },
-        0 
-      );
-
-      tl.to(
-        mesh.position,
-        {
-          x: rest.x,
-          y: rest.y,
-          z: rest.z,
-          duration: 0.3,
-          ease: "power2.inOut",
-          onComplete: () => {
-            mesh.position.set(rest.x, rest.y, rest.z);
+    for (const p of partsToAnimate) {
+      if (p.rotateOffset) {
+        const target = p.groupNode || p.meshes[0];
+        const restRot = {
+          x: target.rotation.x,
+          y: target.rotation.y,
+          z: target.rotation.z,
+        };
+        tl.to(
+          target.rotation,
+          {
+            x: restRot.x + (p.rotateOffset[0] || 0),
+            y: restRot.y + (p.rotateOffset[1] || 0),
+            z: restRot.z + (p.rotateOffset[2] || 0),
+            duration: 0.3,
+            ease: "power2.out",
           },
-        },
-        0.7
-      );
+          0
+        );
+        tl.to(
+          target.rotation,
+          {
+            x: restRot.x,
+            y: restRot.y,
+            z: restRot.z,
+            duration: 0.3,
+            ease: "power2.inOut",
+            onComplete: () => {
+              target.rotation.set(restRot.x, restRot.y, restRot.z);
+            },
+          },
+          0.7
+        );
+      } else {
+        const [ox, oy, oz] = p.explodeOffset;
+        const len = Math.sqrt(ox * ox + oy * oy + oz * oz) || 1;
+        const popDist = 0.4;
+        const dx = (ox / len) * popDist;
+        const dy = (oy / len) * popDist;
+        const dz = (oz / len) * popDist;
+        for (const mesh of p.meshes) {
+          const rest = { x: mesh.position.x, y: mesh.position.y, z: mesh.position.z };
+          tl.to(
+            mesh.position,
+            {
+              x: rest.x + dx,
+              y: rest.y + dy,
+              z: rest.z + dz,
+              duration: 0.3,
+              ease: "power2.out",
+            },
+            0
+          );
+          tl.to(
+            mesh.position,
+            {
+              x: rest.x,
+              y: rest.y,
+              z: rest.z,
+              duration: 0.3,
+              ease: "power2.inOut",
+              onComplete: () => {
+                mesh.position.set(rest.x, rest.y, rest.z);
+              },
+            },
+            0.7
+          );
+        }
+      }
     }
 
     this._activeTimeline = tl;

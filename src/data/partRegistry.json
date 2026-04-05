@@ -4,9 +4,11 @@
       "id": "back_wheel",
       "meshName": "Back Wheel",
       "label": "Back Wheel",
-      "type": "static",
-      "explodeOffset": [0, 0, 0.5],
-      "restPosition": [0, 0, 0]
+      "type": "popup",
+      "explodeOffset": [0, 0.5, 0],
+      "restPosition": [0, 0, 0],
+      "initialPosition": [0, 0, -0.3],
+      "triggers": ["guard_back"]
     },
     {
       "id": "bonnet",
@@ -14,7 +16,9 @@
       "label": "Bonnet",
       "type": "popup",
       "explodeOffset": [0, 0.6, 0],
-      "restPosition": [0, 0, 0]
+      "rotateOffset": [1.2, 0, 0],
+      "restPosition": [0, 0, 0],
+      "initialRotation": [-0.7, 0, 0]
     },
     {
       "id": "chassis",
@@ -30,7 +34,10 @@
       "label": "Left Door",
       "type": "popup",
       "explodeOffset": [-0.6, 0, 0],
-      "restPosition": [0, 0, 0]
+      "rotateOffset": [0, -1.2, 0],
+      "restPosition": [0, 0, 0],
+      "initialRotation": [0, 1.14, 0],
+      "triggers": ["door_right"]
     },
     {
       "id": "door_right",
@@ -38,7 +45,10 @@
       "label": "Right Door",
       "type": "popup",
       "explodeOffset": [0.6, 0, 0],
-      "restPosition": [0, 0, 0]
+      "rotateOffset": [0, 1.2, 0],
+      "restPosition": [0, 0, 0],
+      "initialRotation": [0, -1.14, 0],
+      "triggers": ["door_left"]
     },
     {
       "id": "glass_back",
@@ -77,8 +87,9 @@
       "meshName": "Guard Back",
       "label": "Rear Bumper",
       "type": "popup",
-      "explodeOffset": [0, 0, 0.5],
-      "restPosition": [0, 0, 0]
+      "explodeOffset": [0, 0, 1],
+      "restPosition": [0, 0, 0],
+      "initialPosition": [0, 0, -1.2]
     },
     {
       "id": "guard_front",
@@ -86,15 +97,17 @@
       "label": "Front Bumper",
       "type": "popup",
       "explodeOffset": [0, 0, -0.5],
-      "restPosition": [0, 0, 0]
+      "restPosition": [0, 0, 0],
+      "initialPosition": [0, 0, 0.7]
     },
     {
       "id": "guard_upper",
       "meshName": "Guard Upper",
       "label": "Upper Guard",
-      "type": "static",
+      "type": "popup",
       "explodeOffset": [0, 0.3, 0],
-      "restPosition": [0, 0, 0]
+      "restPosition": [0, 0, 0],
+      "initialPosition": [0, -0.5, 0]
     },
     {
       "id": "steering",

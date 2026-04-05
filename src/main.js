@@ -19,26 +19,20 @@ sceneManager.onTick(() => animation.update());
 
 sceneManager.loadModel("/src/assets/models/textured.glb").then((gltf) => {
   gltf.scene.traverse((node) => {
-    if (node.name.includes("Guard_Front")) {
-      node.position.z -= -0.7;
-    }
-  });
+    const part = configurator.getPartByMeshName(node.name);
+    if (!part) return;
 
-  gltf.scene.traverse((node) => {
-    if (node.name.includes("Guard_Upper")) {
-      node.position.y -=  0.5;
+    if (part.initialPosition) {
+      const [x, y, z] = part.initialPosition;
+      node.position.x += x;
+      node.position.y += y;
+      node.position.z += z;
     }
-  });
-
-   gltf.scene.traverse((node) => {
-    if (node.name.includes("Guard_Back")) {
-      node.position.z -=  1.2;
-    }
-  });
-
-   gltf.scene.traverse((node) => {
-    if (node.name.includes("Back_Wheel")) {
-      node.position.z -=  0.3;
+    if (part.initialRotation) {
+      const [x, y, z] = part.initialRotation;
+      node.rotation.x += x;
+      node.rotation.y += y;
+      node.rotation.z += z;
     }
   });
 

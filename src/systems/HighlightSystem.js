@@ -51,6 +51,7 @@ export class HighlightSystem {
 
   _storeOriginal(mesh) {
     if (this._originals.has(mesh.uuid)) return;
+    mesh.material = mesh.material.clone();
     this._originals.set(mesh.uuid, {
       emissive: mesh.material.emissive
         ? mesh.material.emissive.clone()
