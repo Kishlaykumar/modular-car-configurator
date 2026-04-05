@@ -152,8 +152,6 @@ export class ConfiguratorUI {
     });
   }
 
-
-
   _selectColor(hex, el) {
     this._clearActiveColor();
     el.classList.add("cfg-swatch--active");
