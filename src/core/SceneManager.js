@@ -17,19 +17,15 @@ export class SceneManager {
     this.initHelpers();
     this.initStats();
 
-    // Loaders
     this.gltfLoader = new GLTFLoader();
     this.rgbeLoader = new RGBELoader();
     this.textureLoader = new THREE.TextureLoader();
 
-    // Responsive
     window.addEventListener("resize", this.onResize.bind(this));
 
-    // Start render loop
     this.renderer.setAnimationLoop(this.animate.bind(this));
   }
 
-  // ── Renderer ──────────────────────────────────────────────
 
   initRenderer() {
     this.renderer = new THREE.WebGLRenderer({
@@ -44,14 +40,12 @@ export class SceneManager {
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   }
 
-  // ── Scene ─────────────────────────────────────────────────
 
   initScene() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x1a1a2e);
   }
 
-  // ── Camera ────────────────────────────────────────────────
 
   initCamera() {
     this.camera = new THREE.PerspectiveCamera(
@@ -63,7 +57,6 @@ export class SceneManager {
     this.camera.position.set(4, 1.6, 5);
   }
 
-  // ── Controls ──────────────────────────────────────────────
 
   initControls() {
     this.controls = new OrbitControls(this.camera, this.canvas);
@@ -71,15 +64,12 @@ export class SceneManager {
     this.controls.dampingFactor = 0.05;
     this.controls.minDistance = 4;
     this.controls.maxDistance = 8;
-    this.controls.maxPolarAngle = Math.PI / 2; // prevent going below ground
+    this.controls.maxPolarAngle = Math.PI / 2;
     this.controls.target.set(0, 0.6, 0);
     this.controls.update();
   }
 
-  // ── Lighting ──────────────────────────────────────────────
-
   initLighting() {
-    // Key light – directional from above, matching garage ceiling lights
     this.keyLight = new THREE.DirectionalLight(0xffffff, 4);
     this.keyLight.position.set(5, 10, 5);
     this.keyLight.castShadow = true;
@@ -94,11 +84,9 @@ export class SceneManager {
     this.keyLight.shadow.normalBias = 0.02;
     this.scene.add(this.keyLight);
 
-    // Fill light – soft ambient
     this.fillLight = new THREE.AmbientLight(0xffffff, 0.5);
     this.scene.add(this.fillLight);
 
-    // Rim lights – edge highlights from each side
     const rimLeft = new THREE.DirectionalLight(0xffffff, 1);
     rimLeft.position.set(-6, 4, -2);
     this.scene.add(rimLeft);
@@ -108,10 +96,7 @@ export class SceneManager {
     this.scene.add(rimRight);
   }
 
-  // ── Floor ─────────────────────────────────────────────────
-
   initFloor() {
-    // Ground plane – shadow catcher at y = 0
     const shadowGeo = new THREE.PlaneGeometry(50, 50);
     const shadowMat = new THREE.ShadowMaterial({ opacity: 0.6 });
     this.shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
@@ -121,14 +106,10 @@ export class SceneManager {
     this.scene.add(this.shadowPlane);
   }
 
-  // ── Helpers ───────────────────────────────────────────────
-
   initHelpers() {
     this.axesHelper = new THREE.AxesHelper(5);
     this.scene.add(this.axesHelper);
   }
-
-  // ── Stats ─────────────────────────────────────────────────
 
   initStats() {
     this.stats = new Stats({
@@ -137,8 +118,6 @@ export class SceneManager {
     });
     document.body.appendChild(this.stats.dom);
   }
-
-  // ── Environment (HDRI) ───────────────────────────────────
 
   loadHDRI(path) {
     return new Promise((resolve, reject) => {
@@ -156,8 +135,6 @@ export class SceneManager {
     });
   }
 
-  // ── Background image ─────────────────────────────────────
-
   loadBackground(path) {
     return new Promise((resolve, reject) => {
       this.textureLoader.load(
@@ -173,20 +150,15 @@ export class SceneManager {
     });
   }
 
-  // ── Model loading ────────────────────────────────────────
-
   loadModel(path) {
     return new Promise((resolve, reject) => {
       this.gltfLoader.load(
         path,
         (gltf) => {
           const model = gltf.scene;
-
-          // Ground alignment — move model so its bottom touches y = 0
           const box = new THREE.Box3().setFromObject(model);
           model.position.y -= box.min.y;
 
-          // Enable shadow casting on every mesh in the model
           model.traverse((child) => {
             if (child.isMesh) {
               child.castShadow = true;
@@ -203,8 +175,6 @@ export class SceneManager {
     });
   }
 
-  // ── Responsive ───────────────────────────────────────────
-
   onResize() {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -215,8 +185,6 @@ export class SceneManager {
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   }
-
-  // ── Render loop ──────────────────────────────────────────
 
   animate() {
     this.stats.update();

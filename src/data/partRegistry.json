@@ -1,1 +1,164 @@
-{}
+{
+  "parts": [
+    {
+      "id": "back_wheel",
+      "meshName": "Back Wheel",
+      "label": "Back Wheel",
+      "type": "static",
+      "explodeOffset": [0, 0, -0.5],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "bonnet",
+      "meshName": "Bonnet",
+      "label": "Bonnet",
+      "type": "popup",
+      "explodeOffset": [0, 0.6, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "chassis",
+      "meshName": "Chassis",
+      "label": "Chassis",
+      "type": "static",
+      "explodeOffset": [0, 0, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "door_left",
+      "meshName": "Door Left",
+      "label": "Left Door",
+      "type": "popup",
+      "explodeOffset": [-0.6, 0, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "door_right",
+      "meshName": "Door Right",
+      "label": "Right Door",
+      "type": "popup",
+      "explodeOffset": [0.6, 0, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "glass_back",
+      "meshName": "Glass Back",
+      "label": "Rear Windshield",
+      "type": "static",
+      "explodeOffset": [0, 0.3, -0.3],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "glass_front",
+      "meshName": "Glass Front",
+      "label": "Front Windshield",
+      "type": "static",
+      "explodeOffset": [0, 0.3, 0.3],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "glass_left",
+      "meshName": "Glass Left",
+      "label": "Left Window",
+      "type": "static",
+      "explodeOffset": [-0.3, 0.3, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "glass_right",
+      "meshName": "Glass Right",
+      "label": "Right Window",
+      "type": "static",
+      "explodeOffset": [0.3, 0.3, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "guard_back",
+      "meshName": "Guard Back",
+      "label": "Rear Bumper",
+      "type": "popup",
+      "explodeOffset": [0, 0, -0.5],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "guard_front",
+      "meshName": "Guard Front",
+      "label": "Front Bumper",
+      "type": "popup",
+      "explodeOffset": [0, 0, 0.5],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "guard_upper",
+      "meshName": "Guard Upper",
+      "label": "Upper Guard",
+      "type": "static",
+      "explodeOffset": [0, 0.3, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "steering",
+      "meshName": "Steering",
+      "label": "Steering Wheel",
+      "type": "popup",
+      "explodeOffset": [0, 0.2, 0.3],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "transmission",
+      "meshName": "Transmission",
+      "label": "Transmission",
+      "type": "popup",
+      "explodeOffset": [0, -0.4, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "wheel_bl",
+      "meshName": "BL",
+      "label": "Rear-Left Wheel",
+      "type": "popup",
+      "explodeOffset": [-0.5, 0, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "wheel_br",
+      "meshName": "BR",
+      "label": "Rear-Right Wheel",
+      "type": "popup",
+      "explodeOffset": [0.5, 0, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "wheel_fl",
+      "meshName": "FL",
+      "label": "Front-Left Wheel",
+      "type": "popup",
+      "explodeOffset": [-0.5, 0, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "wheel_fr",
+      "meshName": "FR",
+      "label": "Front-Right Wheel",
+      "type": "popup",
+      "explodeOffset": [0.5, 0, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "rpm_pointer",
+      "meshName": "RPM Pointer",
+      "label": "RPM Gauge",
+      "type": "static",
+      "explodeOffset": [0, 0, 0],
+      "restPosition": [0, 0, 0]
+    },
+    {
+      "id": "speed_pointer",
+      "meshName": "Speed Pointer",
+      "label": "Speedometer",
+      "type": "static",
+      "explodeOffset": [0, 0, 0],
+      "restPosition": [0, 0, 0]
+    }
+  ]
+}

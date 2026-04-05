@@ -18,3 +18,20 @@ body {
   width: 100%;
   height: 100%;
 }
+
+/* ── Part tooltip ──────────────────────────────────────── */
+
+.part-tooltip {
+  position: fixed;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 13px;
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: 1000;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
