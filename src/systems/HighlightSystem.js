@@ -1,11 +1,6 @@
 import * as THREE from "three";
 import { Events } from "../core/ConfiguratorManager.js";
 
-/**
- * Rendering-only layer: applies / removes emissive highlight
- * in response to ConfiguratorManager events.
- * Never mutates state — only reads part.meshes for visuals.
- */
 export class HighlightSystem {
   constructor(configurator) {
     this.configurator = configurator;
@@ -38,7 +33,6 @@ export class HighlightSystem {
 
   _removeHighlight(part) {
     if (!part?.meshes) return;
-    // Keep highlight if this part is currently selected
     if (this.configurator.activePart?.id === part.id) return;
     this._restoreMaterials(part);
   }

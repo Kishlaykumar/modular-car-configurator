@@ -20,9 +20,8 @@ export class SceneManager {
     this.gltfLoader = new GLTFLoader();
     this.rgbeLoader = new RGBELoader();
     this.textureLoader = new THREE.TextureLoader();
-
+    this._tickCallbacks = [];
     window.addEventListener("resize", this.onResize.bind(this));
-
     this.renderer.setAnimationLoop(this.animate.bind(this));
   }
 
@@ -167,7 +166,7 @@ export class SceneManager {
           });
 
           this.scene.add(model);
-          resolve(model);
+          resolve(gltf);
         },
         undefined,
         reject
@@ -186,9 +185,14 @@ export class SceneManager {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   }
 
+  onTick(callback) {
+    this._tickCallbacks.push(callback);
+  }
+
   animate() {
     this.stats.update();
     this.controls.update();
+    for (const cb of this._tickCallbacks) cb();
     this.renderer.render(this.scene, this.camera);
   }
 }
