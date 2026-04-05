@@ -2,10 +2,11 @@ import gsap from "gsap";
 import { Events } from "../core/ConfiguratorManager.js";
 
 const PRESETS = {
-  front: { position: [0, 1.4, 6], target: [0, 0.6, 0] },
-  rear: { position: [0, 1.4, -6], target: [0, 0.6, 0] },
-  top: { position: [0, 7, 0.01], target: [0, 0.6, 0] },
-  side: { position: [6, 1.4, 0], target: [0, 0.6, 0] },
+  front: { position: [0, 1, -6], target: [0, 1.8, 0] },
+  rear: { position: [0, 1, 6], target: [0, 1.8, 0] },
+  top: { position: [0, 7, 0.01], target: [0, 1.8, 0] },
+  right: { position: [-6, 1, 0], target: [0, 1.8, 0] },
+  left: { position: [6, 1, 0], target: [0, 1.8, 0] },
 };
 
 export class CameraSystem {

@@ -72,7 +72,7 @@ export class SceneManager {
     this.controls.minDistance = 4;
     this.controls.maxDistance = 7;
     this.controls.maxPolarAngle = Math.PI / 2;
-    this.controls.target.set(0, 1.9, 0);
+    this.controls.target.set(0, 1.8, 0);
     this.controls.update();
   }
 

@@ -13,7 +13,8 @@ const PRESET_COLORS = [
 const CAMERA_PRESETS = [
   { name: "front", label: "Front" },
   { name: "rear", label: "Rear" },
-  { name: "side", label: "Side" },
+  { name: "right", label: "Right" },
+  { name: "left", label: "Left" },
   { name: "top", label: "Top" },
 ];
 
