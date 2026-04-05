@@ -54,4 +54,3 @@ sceneManager
   });
 
 sceneManager.loadHDRI("/src/assets/hdri/autoshop_01_2k.hdr");
-window.configurator = configurator;

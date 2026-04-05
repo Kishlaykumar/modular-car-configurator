@@ -30,12 +30,6 @@ export class ConfiguratorManager {
     this._listeners[event].push(callback);
   }
 
-  off(event, callback) {
-    const list = this._listeners[event];
-    if (!list) return;
-    this._listeners[event] = list.filter((cb) => cb !== callback);
-  }
-
   emit(event, data) {
     const list = this._listeners[event];
     if (!list) return;

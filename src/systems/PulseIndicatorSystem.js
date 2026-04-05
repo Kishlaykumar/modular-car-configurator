@@ -7,7 +7,6 @@ export class PulseIndicatorSystem {
     this.scene = sceneManager.scene;
     this.configurator = configurator;
     this._indicators = [];
-    this._visible = true;
 
     configurator.on(Events.EXPLODE, () => this._setVisible(false));
     configurator.on(Events.ASSEMBLE, () => this._setVisible(true));
@@ -67,7 +66,6 @@ export class PulseIndicatorSystem {
   }
 
   _setVisible(visible) {
-    this._visible = visible;
     for (const { sprite, tween } of this._indicators) {
       sprite.visible = visible;
       if (visible) {
@@ -125,7 +123,7 @@ export class PulseIndicatorSystem {
       tween.kill();
       sprite.material.map?.dispose();
       sprite.material.dispose();
-      this.scene.remove(sprite);
+      sprite.removeFromParent();
     }
     this._indicators = [];
   }

@@ -66,8 +66,7 @@ export class MaterialSystem {
       0
     );
     console.log(
-      `[MaterialSystem] ${this._bodyMeshes.length} body meshes, ` +
-        `${masked} body-paint pixels masked`
+      `[Material] ${this._bodyMeshes.length} meshes, ${masked} paint pixels masked`
     );
   }
 

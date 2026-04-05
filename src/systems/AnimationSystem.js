@@ -8,10 +8,8 @@ export class AnimationSystem {
     this.state = "idle";
     this.isExploded = false;
     this.mixer = null;
-    this._clipActions = new Map();
     this._clock = new THREE.Clock();
     this._restPositions = new Map();
-    this._activeTimeline = null;
 
     configurator.on(Events.PART_SELECTED, ({ part }) => {
       if (part?.type === "popup") this._playPopup(part);
@@ -33,19 +31,13 @@ export class AnimationSystem {
       this._restPositions.set(part.id, entries);
     }
 
+    // mixer is only needed if the GLB ships embedded animations
     if (gltf.animations?.length) {
       this.mixer = new THREE.AnimationMixer(model);
-      for (const clip of gltf.animations) {
-        const action = this.mixer.clipAction(clip);
-        action.clampWhenFinished = true;
-        action.loop = THREE.LoopOnce;
-        this._clipActions.set(clip.name, action);
-      }
     }
 
     console.log(
-      `[AnimationSystem] Initialised — ${this._restPositions.size} parts, ` +
-        `${this._clipActions.size} embedded clips`
+      `[Animation] ${this._restPositions.size} parts tracked`
     );
   }
 
@@ -144,8 +136,6 @@ export class AnimationSystem {
         }
       }
     }
-
-    this._activeTimeline = tl;
   }
 
   explode() {
@@ -185,8 +175,6 @@ export class AnimationSystem {
         );
       }
     });
-
-    this._activeTimeline = tl;
   }
 
   assemble() {
@@ -229,15 +217,6 @@ export class AnimationSystem {
           );
         }
       });
-
-    this._activeTimeline = tl;
-  }
-
-  playClip(clipName) {
-    const action = this._clipActions.get(clipName);
-    if (!action) return;
-    action.reset();
-    action.play();
   }
 
   _getRestPos(partId, mesh) {

@@ -22,6 +22,8 @@ export class InteractionSystem {
 
     model.traverse((child) => {
       if (!child.isMesh) return;
+
+      // walk up the parent chain to find which registry part owns this mesh
       let node = child;
       while (node) {
         const part = this.configurator.getPartByMeshName(node.name);
@@ -38,7 +40,7 @@ export class InteractionSystem {
 
     const uniqueParts = new Set(this._meshToPartId.values()).size;
     console.log(
-      `[InteractionSystem] Mapped ${this._meshToPartId.size} meshes → ${uniqueParts} parts`
+      `[Interaction] ${this._meshToPartId.size} meshes → ${uniqueParts} parts`
     );
   }
 

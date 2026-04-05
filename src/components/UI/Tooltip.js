@@ -1,10 +1,5 @@
 import { Events } from "../../core/ConfiguratorManager.js";
 
-/**
- * Simple HTML tooltip that follows the cursor.
- * Shows part.label from registry when hovering.
- * DOM-only — no Three.js dependency.
- */
 export class Tooltip {
   constructor(configurator) {
     this.el = this._createElement();

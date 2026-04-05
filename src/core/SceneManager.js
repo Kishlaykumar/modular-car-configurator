@@ -14,12 +14,10 @@ export class SceneManager {
     this.initControls();
     this.initLighting();
     this.initFloor();
-    this.initHelpers();
     this.initStats();
 
     this.gltfLoader = new GLTFLoader();
     this.rgbeLoader = new RGBELoader();
-    this.textureLoader = new THREE.TextureLoader();
     this._tickCallbacks = [];
 
     this._debouncedResize = this._debounce(this.onResize.bind(this), 150);
@@ -115,10 +113,6 @@ export class SceneManager {
     this.scene.add(this.shadowPlane);
   }
 
-  initHelpers() {
-    // Debug helpers disabled for production
-  }
-
   initStats() {
     this.stats = new Stats({
       trackGPU: true,
@@ -135,21 +129,6 @@ export class SceneManager {
         (texture) => {
           texture.mapping = THREE.EquirectangularReflectionMapping;
           this.scene.environment = texture;
-          this.scene.background = texture;
-          resolve(texture);
-        },
-        undefined,
-        reject
-      );
-    });
-  }
-
-  loadBackground(path) {
-    return new Promise((resolve, reject) => {
-      this.textureLoader.load(
-        path,
-        (texture) => {
-          texture.colorSpace = THREE.SRGBColorSpace;
           this.scene.background = texture;
           resolve(texture);
         },
