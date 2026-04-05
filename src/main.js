@@ -15,21 +15,33 @@ const highlight = new HighlightSystem(configurator);
 const animation = new AnimationSystem(configurator);
 const tooltip = new Tooltip(configurator);
 
-// Hook animation mixer into render loop
 sceneManager.onTick(() => animation.update());
 
-configurator.on(Events.PART_HOVERED, ({ part }) =>
-  console.log("[hover]", part.id, part.label)
-);
-configurator.on(Events.PART_UNHOVERED, ({ part }) =>
-  console.log("[unhover]", part.id)
-);
-configurator.on(Events.PART_SELECTED, ({ part, previousPart }) => {
-  if (previousPart) console.log("[deselect]", previousPart.id);
-  if (part) console.log("[select]", part.id, part.label);
-});
-
 sceneManager.loadModel("/src/assets/models/textured.glb").then((gltf) => {
+  gltf.scene.traverse((node) => {
+    if (node.name.includes("Guard_Front")) {
+      node.position.z -= -0.7;
+    }
+  });
+
+  gltf.scene.traverse((node) => {
+    if (node.name.includes("Guard_Upper")) {
+      node.position.y -=  0.5;
+    }
+  });
+
+   gltf.scene.traverse((node) => {
+    if (node.name.includes("Guard_Back")) {
+      node.position.z -=  1.2;
+    }
+  });
+
+   gltf.scene.traverse((node) => {
+    if (node.name.includes("Back_Wheel")) {
+      node.position.z -=  0.3;
+    }
+  });
+
   interaction.mapModel(gltf.scene);
   animation.init(gltf);
 });

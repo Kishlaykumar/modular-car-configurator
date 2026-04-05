@@ -5,7 +5,7 @@
       "meshName": "Back Wheel",
       "label": "Back Wheel",
       "type": "static",
-      "explodeOffset": [0, 0, -0.5],
+      "explodeOffset": [0, 0, 0.5],
       "restPosition": [0, 0, 0]
     },
     {
@@ -77,7 +77,7 @@
       "meshName": "Guard Back",
       "label": "Rear Bumper",
       "type": "popup",
-      "explodeOffset": [0, 0, -0.5],
+      "explodeOffset": [0, 0, 0.5],
       "restPosition": [0, 0, 0]
     },
     {
@@ -85,7 +85,7 @@
       "meshName": "Guard Front",
       "label": "Front Bumper",
       "type": "popup",
-      "explodeOffset": [0, 0, 0.5],
+      "explodeOffset": [0, 0, -0.5],
       "restPosition": [0, 0, 0]
     },
     {
