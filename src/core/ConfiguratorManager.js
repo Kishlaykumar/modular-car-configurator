@@ -6,6 +6,8 @@ export const Events = {
   PART_UNHOVERED: "PART_UNHOVERED",
   EXPLODE: "EXPLODE",
   ASSEMBLE: "ASSEMBLE",
+  COLOR_CHANGED: "COLOR_CHANGED",
+  CAMERA_PRESET: "CAMERA_PRESET",
 };
 
 export class ConfiguratorManager {
@@ -14,6 +16,7 @@ export class ConfiguratorManager {
     this.hoveredPart = null;
     this.interactionLocked = false;
     this.registry = null;
+    this.activeColor = null;
     this._idMap = new Map();
     this._meshNameMap = new Map();
 
@@ -98,5 +101,14 @@ export class ConfiguratorManager {
   assemble() {
     if (this.interactionLocked) return;
     this.emit(Events.ASSEMBLE);
+  }
+
+  setColor(hex) {
+    this.activeColor = hex;
+    this.emit(Events.COLOR_CHANGED, { hex });
+  }
+
+  setCameraPreset(name) {
+    this.emit(Events.CAMERA_PRESET, { name });
   }
 }

@@ -21,8 +21,18 @@ export class SceneManager {
     this.rgbeLoader = new RGBELoader();
     this.textureLoader = new THREE.TextureLoader();
     this._tickCallbacks = [];
-    window.addEventListener("resize", this.onResize.bind(this));
+
+    this._debouncedResize = this._debounce(this.onResize.bind(this), 150);
+    window.addEventListener("resize", this._debouncedResize);
     this.renderer.setAnimationLoop(this.animate.bind(this));
+  }
+
+  _debounce(fn, delay) {
+    let timeout;
+    return () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(fn, delay);
+    };
   }
 
 
@@ -105,16 +115,12 @@ export class SceneManager {
     this.scene.add(this.shadowPlane);
   }
 
-  initHelpers() {
-    this.axesHelper = new THREE.AxesHelper(5);
-    this.scene.add(this.axesHelper);
-  }
-
   initStats() {
     this.stats = new Stats({
       trackGPU: true,
       trackCPU: true,
     });
+    this.stats.dom.style.display = "none";
     document.body.appendChild(this.stats.dom);
   }
 
@@ -149,7 +155,7 @@ export class SceneManager {
     });
   }
 
-  loadModel(path) {
+  loadModel(path, onProgress) {
     return new Promise((resolve, reject) => {
       this.gltfLoader.load(
         path,
@@ -168,7 +174,7 @@ export class SceneManager {
           this.scene.add(model);
           resolve(gltf);
         },
-        undefined,
+        onProgress,
         reject
       );
     });
