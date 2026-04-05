@@ -26,7 +26,7 @@ const ui = new ConfiguratorUI(configurator);
 sceneManager.onTick(() => animation.update());
 
 sceneManager
-  .loadModel("/src/assets/models/textured.glb", (e) => ui.onLoadProgress(e))
+  .loadModel("/assets/models/textured.glb", (e) => ui.onLoadProgress(e))
   .then((gltf) => {
     gltf.scene.traverse((node) => {
       const part = configurator.getPartByMeshName(node.name);
@@ -53,4 +53,4 @@ sceneManager
     ui.onLoadComplete();
   });
 
-sceneManager.loadHDRI("/src/assets/hdri/autoshop_01_2k.hdr");
+sceneManager.loadHDRI("/assets/hdri/autoshop_01_2k.hdr");
