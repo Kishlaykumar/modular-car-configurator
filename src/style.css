@@ -13,6 +13,7 @@ body {
   height: 100%;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 #canvas {
@@ -21,23 +22,22 @@ body {
   height: 100%;
 }
 
-/* ── Part tooltip ──────────────────────────────────────── */
-
 .part-tooltip {
   position: fixed;
-  padding: 6px 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  font-size: 13px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  background: rgba(8, 8, 20, 0.7);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: 10px;
   pointer-events: none;
   z-index: 1000;
   white-space: nowrap;
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
-
-/* ── Loading overlay ───────────────────────────────────── */
 
 .cfg-loader {
   position: fixed;
@@ -46,8 +46,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0d0d1a;
-  transition: opacity 0.5s ease;
+  background: #060611;
+  transition: opacity 0.6s ease;
 }
 .cfg-loader--done {
   opacity: 0;
@@ -55,177 +55,264 @@ body {
 }
 .cfg-loader__content {
   text-align: center;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
 }
 .cfg-loader__spinner {
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 16px;
-  border: 3px solid rgba(255, 255, 255, 0.15);
-  border-top-color: #fff;
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 20px;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(140, 130, 255, 0.8);
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spin 0.9s linear infinite;
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 .cfg-loader__text {
-  font-size: 14px;
-  opacity: 0.7;
-  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.5;
+  margin-bottom: 16px;
+  letter-spacing: 0.04em;
 }
 .cfg-loader__bar {
-  width: 200px;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.1);
+  width: 180px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 2px;
   overflow: hidden;
+  margin: 0 auto;
 }
 .cfg-loader__fill {
   height: 100%;
   width: 0%;
-  background: #fff;
+  background: linear-gradient(90deg, rgba(120, 100, 255, 0.6), rgba(180, 140, 255, 0.8));
   border-radius: 2px;
   transition: width 0.3s ease;
 }
 
-/* ── Panel ─────────────────────────────────────────────── */
-
-.cfg-panel {
-  position: fixed;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-  z-index: 100;
-  width: 220px;
-  padding: 20px 16px;
-  background: rgba(10, 10, 24, 0.75);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  color: #e0e0e0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  opacity: 0;
-  translate: 20px 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease, translate 0.5s ease;
+.glass {
+  background: rgba(30, 30, 38, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.04);
 }
-.cfg-panel--visible {
+
+.cfg-header {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-radius: 18px;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+.cfg-header--visible {
   opacity: 1;
-  translate: 0 0;
+  transform: translateY(0);
   pointer-events: auto;
 }
 
-.cfg-section {
+.cfg-logo {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  height: 24px;
+}
+.cfg-logo-svg {
+  height: 20px;
+  width: auto;
 }
 
-.cfg-heading {
+.cfg-nav {
+  display: flex;
+  gap: 6px;
+}
+
+.cfg-nav-btn {
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 40px;
+  cursor: pointer;
+  transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+.cfg-nav-btn:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.cfg-nav-btn--active {
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(140, 120, 255, 0.12);
+  border-color: rgba(140, 120, 255, 0.25);
+}
+
+.cfg-colors {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 100;
+  padding: 22px 24px;
+  border-radius: 20px;
+  min-width: 260px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+  pointer-events: none;
+}
+.cfg-colors--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.cfg-colors__title {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.5;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 16px;
 }
-
-/* ── Swatches ──────────────────────────────────────────── */
 
 .cfg-swatches {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .cfg-swatch {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 2px solid transparent;
+  border: 2px solid rgba(255, 255, 255, 0.08);
   background: var(--swatch-color);
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.3s ease;
   box-shadow: 0 0 0 0 transparent;
+  position: relative;
 }
 .cfg-swatch:hover {
-  transform: scale(1.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 12px rgba(var(--swatch-r, 255), var(--swatch-g, 255), var(--swatch-b, 255), 0.2);
 }
 .cfg-swatch--active {
-  border-color: #fff;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
-  transform: scale(1.15);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 16px rgba(var(--swatch-r, 255), var(--swatch-g, 255), var(--swatch-b, 255), 0.35);
 }
 
-/* ── Custom color input ────────────────────────────────── */
-
-.cfg-custom-color {
+.cfg-hex-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
-.cfg-label {
-  font-size: 12px;
-  opacity: 0.6;
-  flex-shrink: 0;
-}
+
 .cfg-hex-input {
   flex: 1;
   min-width: 0;
-  padding: 5px 8px;
+  padding: 8px 12px;
   font-size: 12px;
-  font-family: "SF Mono", "Fira Code", monospace;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 6px;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.cfg-hex-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
 }
 .cfg-hex-input:focus {
-  border-color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(140, 120, 255, 0.35);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-/* ── Buttons ───────────────────────────────────────────── */
-
-.cfg-btn {
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-.cfg-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-.cfg-btn--small {
-  padding: 5px 10px;
+.cfg-hex-apply {
+  padding: 8px 16px;
   font-size: 11px;
-  flex-shrink: 0;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
 }
-.cfg-btn--wide {
-  width: 100%;
-  padding: 8px;
+.cfg-hex-apply:hover {
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* ── Camera row ────────────────────────────────────────── */
+.cfg-explode {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 100;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
+  pointer-events: none;
+}
+.cfg-explode--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 
-.cfg-camera-row {
-  display: flex;
-  gap: 6px;
+.cfg-explode__btn {
+  padding: 18px 42px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, rgba(60, 50, 140, 0.55), rgba(90, 65, 180, 0.4));
+  border: 1px solid rgba(140, 120, 255, 0.2);
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  box-shadow:
+    0 0 20px rgba(120, 90, 255, 0.15),
+    0 4px 20px rgba(0, 0, 0, 0.2);
 }
-.cfg-btn--cam {
-  flex: 1;
-  font-size: 16px;
-  padding: 6px 0;
-  text-align: center;
+.cfg-explode__btn:hover {
+  border-color: rgba(140, 120, 255, 0.4);
+  box-shadow:
+    0 0 30px rgba(120, 90, 255, 0.25),
+    0 4px 24px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, rgba(70, 55, 160, 0.65), rgba(100, 75, 200, 0.5));
 }
+.cfg-explode__btn .arrow {
+  display: inline-block;
+  margin-left: 8px;
+  transition: transform 0.25s ease;
+}
+.cfg-explode__btn:hover .arrow {
+  transform: translateX(3px);
+}
+.cfg-panel--visible .cfg-header,
+.cfg-panel--visible .cfg-colors,
+.cfg-panel--visible .cfg-explode {
+
+}
+

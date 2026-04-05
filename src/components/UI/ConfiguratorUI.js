@@ -1,4 +1,5 @@
 import { Events } from "../../core/ConfiguratorManager.js";
+import logoSvg from "../../assets/logo.svg";
 
 const PRESET_COLORS = [
   { hex: "#cc0000", label: "Racing Red" },
@@ -10,10 +11,10 @@ const PRESET_COLORS = [
 ];
 
 const CAMERA_PRESETS = [
-  { name: "front", icon: "↑", label: "Front" },
-  { name: "rear", icon: "↓", label: "Rear" },
-  { name: "side", icon: "→", label: "Side" },
-  { name: "top", icon: "⬆", label: "Top" },
+  { name: "front", label: "Front" },
+  { name: "rear", label: "Rear" },
+  { name: "side", label: "Side" },
+  { name: "top", label: "Top" },
 ];
 
 export class ConfiguratorUI {
@@ -21,12 +22,12 @@ export class ConfiguratorUI {
     this.configurator = configurator;
     this._activeColorEl = null;
     this._isExploded = false;
-
-    this.el = this._build();
-    document.body.appendChild(this.el);
-
+    this._header = this._buildHeader();
+    this._colorPanel = this._buildColorPanel();
+    this._explodeWrap = this._buildExplodeBtn();
     this._loader = this._buildLoader();
-    document.body.appendChild(this._loader);
+
+    document.body.append(this._header, this._colorPanel, this._explodeWrap, this._loader);
 
     configurator.on(Events.EXPLODE, () => {
       this._isExploded = true;
@@ -56,86 +57,78 @@ export class ConfiguratorUI {
     const fill = this._loader.querySelector(".cfg-loader__fill");
     const text = this._loader.querySelector(".cfg-loader__text");
     if (fill) fill.style.width = `${pct}%`;
-    if (text) text.textContent = `Loading model… ${pct}%`;
+    if (text) text.textContent = `Loading… ${pct}%`;
   }
 
   onLoadComplete() {
     this._loader.classList.add("cfg-loader--done");
     setTimeout(() => this._loader.remove(), 600);
-    this.el.classList.add("cfg-panel--visible");
+
+    this._header.classList.add("cfg-header--visible");
+    this._colorPanel.classList.add("cfg-colors--visible");
+    this._explodeWrap.classList.add("cfg-explode--visible");
   }
 
-  _build() {
-    const panel = document.createElement("aside");
-    panel.className = "cfg-panel";
+  _buildHeader() {
+    const header = document.createElement("header");
+    header.className = "cfg-header glass";
 
-    panel.innerHTML = `
-      <div class="cfg-section">
-        <h3 class="cfg-heading">Color</h3>
-        <div class="cfg-swatches" data-ref="swatches"></div>
-        <div class="cfg-custom-color">
-          <label class="cfg-label" for="cfg-hex">Custom</label>
-          <input id="cfg-hex" class="cfg-hex-input" type="text"
-                 maxlength="7" placeholder="#RRGGBB" spellcheck="false" />
-          <button class="cfg-btn cfg-btn--small" data-action="applyHex">Apply</button>
-        </div>
-      </div>
+    const logo = document.createElement("div");
+    logo.className = "cfg-logo";
+    const logoImg = document.createElement("img");
+    logoImg.src = logoSvg;
+    logoImg.alt = "CTRuh";
+    logoImg.className = "cfg-logo-svg";
+    logo.appendChild(logoImg);
 
-      <div class="cfg-section">
-        <h3 class="cfg-heading">View</h3>
-        <div class="cfg-camera-row" data-ref="cameras"></div>
-      </div>
+    const nav = document.createElement("nav");
+    nav.className = "cfg-nav";
 
-      <div class="cfg-section">
-        <h3 class="cfg-heading">Model</h3>
-        <button class="cfg-btn cfg-btn--wide" data-action="toggleExplode">
-          Explode
-        </button>
-      </div>
-    `;
+    for (const { name, label } of CAMERA_PRESETS) {
+      const btn = document.createElement("button");
+      btn.className = "cfg-nav-btn";
+      btn.textContent = label;
+      btn.addEventListener("click", () => this.configurator.setCameraPreset(name));
+      nav.appendChild(btn);
+    }
 
-    this._populateSwatches(panel.querySelector('[data-ref="swatches"]'));
-    this._populateCameras(panel.querySelector('[data-ref="cameras"]'));
-    this._bindActions(panel);
-
-    return panel;
+    header.append(logo, nav);
+    return header;
   }
 
-  _populateSwatches(container) {
+  _buildColorPanel() {
+    const panel = document.createElement("div");
+    panel.className = "cfg-colors glass";
+
+    const title = document.createElement("div");
+    title.className = "cfg-colors__title";
+    title.textContent = "Color";
+
+    const swatches = document.createElement("div");
+    swatches.className = "cfg-swatches";
+
     for (const { hex, label } of PRESET_COLORS) {
       const btn = document.createElement("button");
       btn.className = "cfg-swatch";
       btn.style.setProperty("--swatch-color", hex);
       btn.title = label;
-      btn.dataset.hex = hex;
       btn.addEventListener("click", () => this._selectColor(hex, btn));
-      container.appendChild(btn);
+      swatches.appendChild(btn);
     }
-  }
 
-  _populateCameras(container) {
-    for (const { name, icon, label } of CAMERA_PRESETS) {
-      const btn = document.createElement("button");
-      btn.className = "cfg-btn cfg-btn--cam";
-      btn.textContent = icon;
-      btn.title = label;
-      btn.addEventListener("click", () => this.configurator.setCameraPreset(name));
-      container.appendChild(btn);
-    }
-  }
+    const hexRow = document.createElement("div");
+    hexRow.className = "cfg-hex-row";
 
-  _bindActions(panel) {
-    this._toggleBtn = panel.querySelector('[data-action="toggleExplode"]');
-    this._toggleBtn.addEventListener("click", () => {
-      if (this._isExploded) {
-        this.configurator.assemble();
-      } else {
-        this.configurator.explode();
-      }
-    });
+    const hexInput = document.createElement("input");
+    hexInput.className = "cfg-hex-input";
+    hexInput.type = "text";
+    hexInput.maxLength = 7;
+    hexInput.placeholder = "#RRGGBB";
+    hexInput.spellcheck = false;
 
-    const hexInput = panel.querySelector("#cfg-hex");
-    const applyBtn = panel.querySelector('[data-action="applyHex"]');
+    const applyBtn = document.createElement("button");
+    applyBtn.className = "cfg-hex-apply";
+    applyBtn.textContent = "Apply";
 
     const applyCustom = () => {
       const raw = hexInput.value.trim();
@@ -150,6 +143,29 @@ export class ConfiguratorUI {
     hexInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") applyCustom();
     });
+
+    hexRow.append(hexInput, applyBtn);
+    panel.append(title, swatches, hexRow);
+    return panel;
+  }
+
+  _buildExplodeBtn() {
+    const wrap = document.createElement("div");
+    wrap.className = "cfg-explode";
+
+    this._toggleBtn = document.createElement("button");
+    this._toggleBtn.className = "cfg-explode__btn";
+    this._toggleBtn.innerHTML = `Explode <span class="arrow">→</span>`;
+    this._toggleBtn.addEventListener("click", () => {
+      if (this._isExploded) {
+        this.configurator.assemble();
+      } else {
+        this.configurator.explode();
+      }
+    });
+
+    wrap.appendChild(this._toggleBtn);
+    return wrap;
   }
 
   _selectColor(hex, el) {
@@ -168,7 +184,9 @@ export class ConfiguratorUI {
 
   _updateToggleBtn() {
     if (this._toggleBtn) {
-      this._toggleBtn.textContent = this._isExploded ? "Assemble" : "Explode";
+      this._toggleBtn.innerHTML = this._isExploded
+        ? `Assemble <span class="arrow">←</span>`
+        : `Explode <span class="arrow">→</span>`;
     }
   }
 }
