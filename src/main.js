@@ -6,6 +6,7 @@ import { HighlightSystem } from "./systems/HighlightSystem.js";
 import { AnimationSystem } from "./systems/AnimationSystem.js";
 import { CameraSystem } from "./systems/CameraSystem.js";
 import { MaterialSystem } from "./systems/MaterialSystem.js";
+import { PulseIndicatorSystem } from "./systems/PulseIndicatorSystem.js";
 import { Tooltip } from "./components/UI/Tooltip.js";
 import { ConfiguratorUI } from "./components/UI/ConfiguratorUI.js";
 
@@ -18,6 +19,7 @@ const highlight = new HighlightSystem(configurator);
 const animation = new AnimationSystem(configurator);
 const cameraSystem = new CameraSystem(sceneManager, configurator);
 const materialSystem = new MaterialSystem(configurator);
+const pulseIndicators = new PulseIndicatorSystem(sceneManager, configurator);
 const tooltip = new Tooltip(configurator);
 const ui = new ConfiguratorUI(configurator);
 
@@ -47,6 +49,7 @@ sceneManager
     interaction.mapModel(gltf.scene);
     animation.init(gltf);
     materialSystem.init(gltf.scene);
+    pulseIndicators.init();
     ui.onLoadComplete();
   });
 
