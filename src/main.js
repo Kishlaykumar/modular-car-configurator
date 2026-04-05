@@ -15,10 +15,10 @@ const sceneManager = new SceneManager(canvas);
 const configurator = new ConfiguratorManager();
 
 const interaction = new InteractionSystem(sceneManager, configurator);
+const materialSystem = new MaterialSystem(configurator);
 const highlight = new HighlightSystem(configurator);
 const animation = new AnimationSystem(configurator);
 const cameraSystem = new CameraSystem(sceneManager, configurator);
-const materialSystem = new MaterialSystem(configurator);
 const pulseIndicators = new PulseIndicatorSystem(sceneManager, configurator);
 const tooltip = new Tooltip(configurator);
 const ui = new ConfiguratorUI(configurator);

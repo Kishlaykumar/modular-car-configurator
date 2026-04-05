@@ -101,7 +101,11 @@ export class HighlightSystem {
 
   _refreshStoredOriginals() {
     for (const [uuid, orig] of this._originals) {
-      // brute-force find — only runs on color change, not per-frame
+      const tw = this._tweens.get(uuid);
+      if (tw) {
+        tw.kill();
+        this._tweens.delete(uuid);
+      }
       let mesh = null;
       for (const part of this.configurator.registry.parts) {
         if (!part.meshes) continue;
@@ -113,6 +117,10 @@ export class HighlightSystem {
         ? mesh.material.emissive.clone()
         : new THREE.Color(0x000000);
       orig.emissiveIntensity = mesh.material.emissiveIntensity ?? 0;
+      if (mesh.material.emissive) {
+        mesh.material.emissive.copy(orig.emissive);
+        mesh.material.emissiveIntensity = orig.emissiveIntensity;
+      }
     }
   }
 }
