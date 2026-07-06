@@ -1,5 +1,4 @@
 import { Events } from "../../core/ConfiguratorManager.js";
-import logoSvg from "../../assets/logo.svg";
 
 const PRESET_COLORS = [
   { hex: "#cc0000", label: "Racing Red" },
@@ -74,14 +73,6 @@ export class ConfiguratorUI {
     const header = document.createElement("header");
     header.className = "cfg-header glass";
 
-    const logo = document.createElement("div");
-    logo.className = "cfg-logo";
-    const logoImg = document.createElement("img");
-    logoImg.src = logoSvg;
-    logoImg.alt = "CTRuh";
-    logoImg.className = "cfg-logo-svg";
-    logo.appendChild(logoImg);
-
     const nav = document.createElement("nav");
     nav.className = "cfg-nav";
 
@@ -93,7 +84,7 @@ export class ConfiguratorUI {
       nav.appendChild(btn);
     }
 
-    header.append(logo, nav);
+    header.append(nav);
     return header;
   }
 
